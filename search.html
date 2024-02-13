@@ -2,7 +2,7 @@
 toc: true 
 comments: false 
 layout: post 
-title: Signup
+title: Restaurant Search
 type: hacks
 courses: { compsci: {week: 5} }
 ---
@@ -11,13 +11,13 @@ courses: { compsci: {week: 5} }
 <html>
 <head>
 <style>
-  /* Basic styles for the search bar and card details */
+  /* Basic styles for the search bar and restaurant details */
   .search-container {
     text-align: center;
     margin: 20px;
   }
 
-  #card-search {
+  #restaurant-search {
     padding: 10px;
     font-size: 16px;
     border: 2px solid #3498db;
@@ -25,7 +25,7 @@ courses: { compsci: {week: 5} }
     outline: none;
   }
 
-  #card-search::placeholder {
+  #restaurant-search::placeholder {
     color: #95a5a6;
   }
 
@@ -39,7 +39,7 @@ courses: { compsci: {week: 5} }
     cursor: pointer;
   }
 
-  .card-details {
+  .restaurant-details {
     display: none;
     border: 2px solid black;
     margin: 20px;
@@ -60,7 +60,7 @@ courses: { compsci: {week: 5} }
     position: relative;
   }
 
-  .card-image {
+  .restaurant-image {
     border: 2px solid black;
     text-align: center;
     border-radius: 15px; /* Adding rounded corners */
@@ -72,17 +72,17 @@ courses: { compsci: {week: 5} }
     max-height: 100%;
   }
 
-  .stats {
+  .info {
     padding: 10px;
   }
 
-  .stat-grid {
+  .info-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 5px;
   }
 
-  .card-description {
+  .restaurant-description {
     font-style: italic;
   }
 
@@ -95,22 +95,22 @@ courses: { compsci: {week: 5} }
 </head>
 <body>
   <div class="search-container">
-    <input type="text" id="card-search" placeholder="Search for a card...">
-    <button onclick="searchCard()">Search</button>
+    <input type="text" id="restaurant-search" placeholder="Search for a restaurant...">
+    <button onclick="searchRestaurant()">Search</button>
   </div>
-  <div class="card-details">
-    <div class="card-image">
-        <img id="card-image" src="cardSearch.jpeg" alt="Card Image">
+  <div class="restaurant-details">
+    <div class="restaurant-image">
+        <img id="restaurant-image" src="restaurantSearch.jpeg" alt="Restaurant Image">
     </div>
-    <div class="stats">
-      <h2>Card Name: <span id="card-name"></span></h2>
-      <div class="stat-grid">
-        <div>Max Level: <span id="maxlev"></span></div>
-        <div>Hitpoints: <span id="hitpoints">500</span></div>
-        <!-- Add more stats here as needed -->
+    <div class="info">
+      <h2>Restaurant Name: <span id="restaurant-name"></span></h2>
+      <div class="info-grid">
+        <div>Cuisine: <span id="cuisine"></span></div>
+        <div>Rating: <span id="rating"></span></div>
+        <!-- Add more information here as needed -->
       </div>
     </div>
-    <div class="card-description" id="card-description"></div>
+    <div class="restaurant-description" id="restaurant-description"></div>
   </div>
 
   <script>
@@ -127,57 +127,44 @@ courses: { compsci: {week: 5} }
       }
     }
 
-    function searchCard() {
+    function searchRestaurant() {
       const imageContainer = document.getElementById('image-container');
-      const cardName = document.getElementById('card-search').value;
+      const restaurantName = document.getElementById('restaurant-search').value;
       const errorMessage = document.getElementById('error-message');
-      // Make an AJAX request to your Clash Royale API to fetch card data
-      // Update the card image, name, and stats in the DOM with the fetched data
-      // Replace the URL with the new endpoint for random quotes.
-      const apiUrl = 'https://clash-flask.stu.nighthawkcodingsociety.com/api/cards/search?query=' + cardName;
+      // Make an AJAX request to your restaurant API to fetch restaurant data
+      // Update the restaurant image, name, and info in the DOM with the fetched data
+      // Replace the URL with the new endpoint for restaurant search.
+      const apiUrl = 'https://api.example.com/restaurants/search?query=' + restaurantName;
       fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
-          const cardNameFromData = data[0].name;
-          document.getElementById('card-name').textContent = cardNameFromData;
-          const maxLevelFromData = data[0].maxLevel;
-          document.getElementById('maxlev').textContent = maxLevelFromData;
-          const imgURL = data[0].medium; // Assuming the API response has a "quote" property.
+          const restaurantNameFromData = data[0].name;
+          document.getElementById('restaurant-name').textContent = restaurantNameFromData;
+          const cuisineFromData = data[0].cuisine;
+          document.getElementById('cuisine').textContent = cuisineFromData;
+          const imgURL = data[0].imageURL; // Adjust according to the actual API response property for image.
           const img = document.createElement('img');
           img.src = imgURL;
-          document.getElementById('card-image').src = imgURL;
+          document.getElementById('restaurant-image').src = imgURL;
         })
         .catch(error => {
-          errorMessage.textContent = 'Failed to fetch image. Please try again later.';
+          errorMessage.textContent = 'Failed to fetch restaurant data. Please try again later.';
           console.error('Error:', error);
         });
-      // Example:
-      // const cardData = fetchCardData(cardName); // You need to implement this function
-      // document.getElementById('card-image').src = cardData.imageURL;
-      // document.getElementById('card-name').textContent = cardData.name;
-      // document.getElementById('damage').textContent = cardData.damage;
-      // document.getElementById('hitpoints').textContent = cardData.hitpoints;
 
-      // Show the card details container
-      document.querySelector('.card-details').style.display = 'block';
+      // Show the restaurant details container
+      document.querySelector('.restaurant-details').style.display = 'block';
 
-      // Display the user input in the result box
-      const searchResultBox = document.getElementById('search-result-box');
-      const searchResult = document.getElementById('search-result');
-      searchResult.textContent = cardName;
+      // Display the description below the restaurant image
+      const restaurantDescription = document.getElementById('restaurant-description');
+      restaurantDescription.textContent = `Discover the taste of ${restaurantName}`;
       
-      // Display the description below the card image
-      const cardDescription = document.getElementById('card-description');
-      cardDescription.textContent = `The picture of ${cardName}`;
-      
-      // Display the photo description above the card image
-      const photoDescription = document.getElementById('card-image');
-      photoDescription.insertAdjacentHTML('beforebegin', `<div class="photo-description">Photo of ${cardName}</div>`);
+      // Display the photo description above the restaurant image
+      const photoDescription = document.getElementById('restaurant-image');
+      photoDescription.insertAdjacentHTML('beforebegin', `<div class="photo-description">Photo of ${restaurantName}</div>`);
       
       // Add a creative animation
-      searchResultBox.style.top = '-300px';
-      searchResultBox.style.display = 'block';
-      slideDown(searchResultBox);
+      slideDown(document.querySelector('.restaurant-details'));
     }
   </script>
 </body>
