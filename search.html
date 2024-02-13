@@ -1,0 +1,184 @@
+---
+toc: true 
+comments: false 
+layout: post 
+title: Signup
+type: hacks
+courses: { compsci: {week: 5} }
+---
+
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  /* Basic styles for the search bar and card details */
+  .search-container {
+    text-align: center;
+    margin: 20px;
+  }
+
+  #card-search {
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #3498db;
+    border-radius: 5px;
+    outline: none;
+  }
+
+  #card-search::placeholder {
+    color: #95a5a6;
+  }
+
+  button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .card-details {
+    display: none;
+    border: 2px solid black;
+    margin: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    color: black;
+  }
+
+  .result-box {
+    display: none;
+    margin: 20px;
+    padding: 20px;
+    background-color: #f1c40f; /* Yellow background */
+    border: 2px solid #3498db;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+  }
+
+  .card-image {
+    border: 2px solid black;
+    text-align: center;
+    border-radius: 15px; /* Adding rounded corners */
+    padding: 15px; /* Increase padding to create space for curved corners */
+  }
+
+  img {
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  .stats {
+    padding: 10px;
+  }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5px;
+  }
+
+  .card-description {
+    font-style: italic;
+  }
+
+  .photo-description {
+    font-weight: bold;
+    color: black;
+    font-size: 18px;
+  }
+</style>
+</head>
+<body>
+  <div class="search-container">
+    <input type="text" id="card-search" placeholder="Search for a card...">
+    <button onclick="searchCard()">Search</button>
+  </div>
+  <div class="card-details">
+    <div class="card-image">
+        <img id="card-image" src="cardSearch.jpeg" alt="Card Image">
+    </div>
+    <div class="stats">
+      <h2>Card Name: <span id="card-name"></span></h2>
+      <div class="stat-grid">
+        <div>Max Level: <span id="maxlev"></span></div>
+        <div>Hitpoints: <span id="hitpoints">500</span></div>
+        <!-- Add more stats here as needed -->
+      </div>
+    </div>
+    <div class="card-description" id="card-description"></div>
+  </div>
+
+  <script>
+    function slideDown(element) {
+      let pos = -300;
+      const interval = setInterval(frame, 5);
+      function frame() {
+        if (pos >= 0) {
+          clearInterval(interval);
+        } else {
+          pos += 5;
+          element.style.top = pos + 'px';
+        }
+      }
+    }
+
+    function searchCard() {
+      const imageContainer = document.getElementById('image-container');
+      const cardName = document.getElementById('card-search').value;
+      const errorMessage = document.getElementById('error-message');
+      // Make an AJAX request to your Clash Royale API to fetch card data
+      // Update the card image, name, and stats in the DOM with the fetched data
+      // Replace the URL with the new endpoint for random quotes.
+      const apiUrl = 'https://clash-flask.stu.nighthawkcodingsociety.com/api/cards/search?query=' + cardName;
+      fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+          const cardNameFromData = data[0].name;
+          document.getElementById('card-name').textContent = cardNameFromData;
+          const maxLevelFromData = data[0].maxLevel;
+          document.getElementById('maxlev').textContent = maxLevelFromData;
+          const imgURL = data[0].medium; // Assuming the API response has a "quote" property.
+          const img = document.createElement('img');
+          img.src = imgURL;
+          document.getElementById('card-image').src = imgURL;
+        })
+        .catch(error => {
+          errorMessage.textContent = 'Failed to fetch image. Please try again later.';
+          console.error('Error:', error);
+        });
+      // Example:
+      // const cardData = fetchCardData(cardName); // You need to implement this function
+      // document.getElementById('card-image').src = cardData.imageURL;
+      // document.getElementById('card-name').textContent = cardData.name;
+      // document.getElementById('damage').textContent = cardData.damage;
+      // document.getElementById('hitpoints').textContent = cardData.hitpoints;
+
+      // Show the card details container
+      document.querySelector('.card-details').style.display = 'block';
+
+      // Display the user input in the result box
+      const searchResultBox = document.getElementById('search-result-box');
+      const searchResult = document.getElementById('search-result');
+      searchResult.textContent = cardName;
+      
+      // Display the description below the card image
+      const cardDescription = document.getElementById('card-description');
+      cardDescription.textContent = `The picture of ${cardName}`;
+      
+      // Display the photo description above the card image
+      const photoDescription = document.getElementById('card-image');
+      photoDescription.insertAdjacentHTML('beforebegin', `<div class="photo-description">Photo of ${cardName}</div>`);
+      
+      // Add a creative animation
+      searchResultBox.style.top = '-300px';
+      searchResultBox.style.display = 'block';
+      slideDown(searchResultBox);
+    }
+  </script>
+</body>
+</html>
