@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Random Restaurant Generator</title>
+<style>
+  body { font-family: Arial, sans-serif; padding: 20px; }
+  .restaurant-info { margin-top: 20px; }
+  .restaurant-name { font-size: 24px; font-weight: bold; }
+  .restaurant-detail { margin: 10px 0; }
+  .restaurant-review { font-style: italic; }
+  .restaurant-image { max-width: 300px; max-height: 200px; margin-top: 10px; }
+</style>
+</head>
+<body>
+
+<button id="generate">Generate Random Restaurant</button>
+<div class="restaurant-info" id="restaurantInfo"></div>
+
+<script>
+// Sample data for restaurants
+const restaurants = [
+  {
+    name: "The Italian Kitchen",
+    serves: "Italian Cuisine",
+    reviews: "Fantastic place for authentic Italian dishes.",
+    image: "italian-kitchen.jpg" // This should be replaced with an actual path or URL
+  },
+  {
+    name: "Curry Express",
+    serves: "Indian Food",
+    reviews: "Best curry in town! Must try the chicken tikka masala.",
+    image: "curry-express.jpg" // This should be replaced with an actual path or URL
+  },
+  {
+    name: "Sushi World",
+    serves: "Japanese Sushi",
+    reviews: "Fresh sushi and great service. Loved the dragon roll!",
+    image: "sushi-world.jpg" // This should be replaced with an actual path or URL
+  },
+  // Add more restaurants here
+];
+
+document.getElementById("generate").addEventListener("click", function() {
+  const randomIndex = Math.floor(Math.random() * restaurants.length);
+  const restaurant = restaurants[randomIndex];
+
+  document.getElementById("restaurantInfo").innerHTML = `
+    <div class="restaurant-name">${restaurant.name}</div>
+    <div class="restaurant-detail">Serves: ${restaurant.serves}</div>
+    <div class="restaurant-review">Review: ${restaurant.reviews}</div>
+    <img src="${restaurant.image}" alt="${restaurant.name}" class="restaurant-image">
+  `;
+});
+</script>
+
+</body>
+</html>
