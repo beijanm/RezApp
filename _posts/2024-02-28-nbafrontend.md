@@ -1,25 +1,35 @@
 ---
 toc: false
 comments: false 
-layout: post
+layout: base
 title: Basic NBA
 type: hacks
 courses: { compsci: {week: 5} }
 ---
 
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Player Stats</title>
+    <title>NBA Player Stats</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f0f0f0; padding: 20px; }
+        h1, h2 { color: #d40000; }
+        ul { list-style-type: none; padding: 0; }
+        li { background-color: #fff; margin-bottom: 10px; padding: 10px; border: 1px solid #ddd; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        li:hover { background-color: #d40000; color: #fff; }
+        .deleteBtn { cursor: pointer; background-color: #555; color: #fff; border: none; padding: 5px 10px; border-radius: 5px; }
+        .deleteBtn:hover { background-color: #d40000; }
+        #playerStats { background-color: #fff; border: 1px solid #ddd; padding: 20px; }
+        a { display: inline-block; margin-top: 20px; color: #007bff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
 </head>
 <body>
-    <h1>Player List</h1>
+    <h1>NBA Player List</h1>
     <ul id="playerList"></ul>
-
     <h2>Player Stats</h2>
     <div id="playerStats"></div>
+    <a href="http://127.0.0.1:4200/RezApp//2024/02/29/Add_Player.html">Add a New Player</a>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -27,56 +37,36 @@ courses: { compsci: {week: 5} }
         });
 
         function fetchPlayers() {
-            fetch('http://127.0.0.1:8086/api/ballers') // Adjust this URL to your API endpoint
+            fetch('http://127.0.0.1:8086/api/ballers')
                 .then(response => response.json())
                 .then(players => {
                     const playerList = document.getElementById('playerList');
-                    playerList.innerHTML = ''; // Clear the list
-
+                    playerList.innerHTML = '';
                     players.forEach(player => {
                         const playerItem = document.createElement('li');
-                        playerItem.textContent = player.name; // Adjust based on your data structure
-                        playerItem.setAttribute('data-player-id', player.id); // Add player ID as data attribute
-                        
-                        // Click event to fetch player stats
-                        playerItem.addEventListener('click', () => {
-                            fetchPlayerStats(player.id);
+                        playerItem.textContent = player.name;
+                        const deleteBtn = document.createElement('button');
+                        deleteBtn.textContent = 'Delete';
+                        deleteBtn.className = 'deleteBtn';
+                        deleteBtn.onclick = () => deletePlayer(player.id);
+                        playerItem.appendChild(deleteBtn);
+                        playerItem.addEventListener('click', (event) => {
+                            if (event.target !== deleteBtn) {
+                                fetchPlayerStats(player.id);
+                            }
                         });
-
                         playerList.appendChild(playerItem);
                     });
                 })
-                .catch(error => console.error('Error fetching players:', error));
+                .catch(error => console.error('Error:', error));
         }
 
         function fetchPlayerStats(playerId) {
-            fetch(`http://127.0.0.1:8086/api/ballers/${playerId}/stats`) // Adjust this URL to your API endpoint
-                .then(response => response.json())
-                .then(data => {
-                    displayPlayerStats(data);
-                })
-                .catch(error => console.error('Error fetching player stats:', error));
+            // Placeholder for fetchPlayerStats implementation
         }
 
-        function displayPlayerStats(data) {
-            const statsContainer = document.getElementById('playerStats');
-            statsContainer.innerHTML = ''; // Clear existing stats
-
-            // Assuming 'data' structure includes player info and stats array
-            const playerInfo = `
-                <h3>${data.player.name} (${data.player.team})</h3>
-                <p>Date of Birth: ${data.player.dob}</p>
-            `;
-            statsContainer.innerHTML += playerInfo;
-
-            if (data.stats && data.stats.length > 0) {
-                const statsList = data.stats.map(stat => `
-                    <li>Points Per Game: ${stat.points_per_game}, Assists Per Game: ${stat.assists_per_game}, Rebounds Per Game: ${stat.rebounds_per_game}</li>
-                `).join('');
-                statsContainer.innerHTML += `<ul>${statsList}</ul>`;
-            } else {
-                statsContainer.innerHTML += '<p>No stats available for this player.</p>';
-            }
+        function deletePlayer(playerId) {
+            // Placeholder for deletePlayer implementation
         }
     </script>
 </body>
