@@ -9,7 +9,7 @@ courses: { compsci: {week: 5} }
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>NBA Teams</title>
+    <h1>NBA Teams <img src="https://1000logos.net/wp-content/uploads/2017/04/Logo-NBA.png" alt="NBA Logo" style="height: 50px;"></h1>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -66,7 +66,6 @@ courses: { compsci: {week: 5} }
     </style>
 </head>
 <body>
-    <h1>NBA Teams</h1>
     <table id="nbaTeamsTable">
         <thead>
             <tr>
