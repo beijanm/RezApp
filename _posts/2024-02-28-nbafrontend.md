@@ -13,74 +13,17 @@ courses: { compsci: {week: 5} }
     <meta charset="UTF-8">
     <title>NBA Player Stats</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #282c34;
-            color: #abb2bf;
-            padding: 20px;
-            margin: 0;
-        }
-        h1, h2 {
-            color: #61afef;
-        }
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        li {
-            background-color: #3a3f4b;
-            margin-bottom: 10px;
-            padding: 10px;
-            border-radius: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-            transition: transform 0.2s;
-        }
-        li:hover {
-            transform: scale(1.02);
-        }
-        button {
-            cursor: pointer;
-            background-color: #61afef;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #467ca0;
-        }
-        .editStatsBtn, .deleteBtn {
-            background-color: #e06c75;
-            margin-left: 10px;
-        }
-        .editStatsBtn:hover, .deleteBtn:hover {
-            background-color: #be5046;
-        }
-        #playerStats {
-            background-color: #3a3f4b;
-            border-radius: 8px;
-            padding: 20px;
-            margin-top: 20px;
-            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-        }
-        .actionLink {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 15px;
-            background-color: #98c379;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .actionLink:hover {
-            background-color: #829b67;
-        }
+        body { font-family: Arial, sans-serif; background-color: #f0f0f0; padding: 20px; }
+        h1, h2 { color: #d40000; }
+        ul { list-style-type: none; padding: 0; }
+        li { background-color: #fff; margin-bottom: 10px; padding: 10px; border: 1px solid #ddd; display: flex; justify-content: space-between; align-items: center; }
+        button { cursor: pointer; background-color: #007bff; color: #fff; border: none; padding: 5px 10px; border-radius: 5px; margin-left: 5px; }
+        button:hover { background-color: #0056b3; }
+        .statsBtn { background-color: #555; }
+        .statsBtn:hover { background-color: #d40000; }
+        #playerStats { background-color: #fff; border: 1px solid #ddd; padding: 20px; margin-top: 20px; }
+        .actionLink { display: inline-block; margin-top: 20px; padding: 10px 15px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px; }
+        .actionLink:hover { background-color: #0056b3; text-decoration: none; color: #fff; }
     </style>
 </head>
 <body>
@@ -132,6 +75,7 @@ courses: { compsci: {week: 5} }
         function fetchPlayerStats(playerId) {
             // Fetch player stats logic
         }
+
 
         function deletePlayer(playerId) {
             // Delete player logic
