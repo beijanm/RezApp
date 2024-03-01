@@ -12,13 +12,49 @@ courses: { compsci: {week: 5} }
     <meta charset="UTF-8">
     <title>Add NBA Player</title>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f0f0f0; padding: 20px; }
-        form { margin-bottom: 20px; }
-        input, button { padding: 10px; margin-right: 5px; border-radius: 5px; border: 1px solid #ddd; }
-        button { cursor: pointer; background-color: #007bff; color: #fff; border: none; }
-        button:hover { background-color: #0056b3; }
-        a { display: inline-block; margin-top: 20px; color: #007bff; text-decoration: none; }
-        a:hover { text-decoration: underline; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
+            padding: 20px;
+            color: #fff;
+        }
+        form {
+            background: #ffffff1a;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        input, button {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease-in-out;
+        }
+        input:focus, button:hover {
+            transform: scale(1.02);
+        }
+        button {
+            cursor: pointer;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            color: #fff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>

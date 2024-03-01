@@ -8,23 +8,79 @@ courses: { compsci: {week: 5} }
 ---
 
 
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>NBA Player Stats</title>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f0f0f0; padding: 20px; }
-        h1, h2 { color: #d40000; }
-        ul { list-style-type: none; padding: 0; }
-        li { background-color: #fff; margin-bottom: 10px; padding: 10px; border: 1px solid #ddd; display: flex; justify-content: space-between; align-items: center; }
-        button { cursor: pointer; background-color: #007bff; color: #fff; border: none; padding: 5px 10px; border-radius: 5px; margin-left: 5px; }
-        button:hover { background-color: #0056b3; }
-        .statsBtn { background-color: #555; }
-        .statsBtn:hover { background-color: #d40000; }
-        #playerStats { background-color: #fff; border: 1px solid #ddd; padding: 20px; margin-top: 20px; }
-        .actionLink { display: inline-block; margin-top: 20px; padding: 10px 15px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px; }
-        .actionLink:hover { background-color: #0056b3; text-decoration: none; color: #fff; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #282c34;
+            color: #abb2bf;
+            padding: 20px;
+            margin: 0;
+        }
+        h1, h2 {
+            color: #61afef;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #3a3f4b;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s;
+        }
+        li:hover {
+            transform: scale(1.02);
+        }
+        button {
+            cursor: pointer;
+            background-color: #61afef;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #467ca0;
+        }
+        .editStatsBtn, .deleteBtn {
+            background-color: #e06c75;
+            margin-left: 10px;
+        }
+        .editStatsBtn:hover, .deleteBtn:hover {
+            background-color: #be5046;
+        }
+        #playerStats {
+            background-color: #3a3f4b;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        .actionLink {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #98c379;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .actionLink:hover {
+            background-color: #829b67;
+        }
     </style>
 </head>
 <body>
@@ -32,7 +88,6 @@ courses: { compsci: {week: 5} }
     <ul id="playerList"></ul>
     <h2>Player Stats</h2>
     <div id="playerStats"></div>
-    <div id="editStatsContainer"></div>
     <button class="actionLink" onclick="location.href='http://127.0.0.1:4200/RezApp//2024/02/29/Add_Player.html'">Add a New Player</button>
     <button class="actionLink" onclick="location.href='http://127.0.0.1:4200/RezApp//2024/02/29/Add_Stats.html'">Add Player Stats</button>
 
@@ -49,73 +104,42 @@ courses: { compsci: {week: 5} }
                     playerList.innerHTML = '';
                     players.forEach(player => {
                         const playerItem = document.createElement('li');
-                        playerItem.textContent = player.name; // Set the player name as the list item's text
 
-                        // Wrap the player's name in a span for click handling
                         const playerNameSpan = document.createElement('span');
                         playerNameSpan.textContent = player.name;
                         playerNameSpan.style.cursor = 'pointer';
-                        playerNameSpan.onclick = () => fetchPlayerStats(player.id);
-                        
-                        // Clear existing content and append the clickable name span
-                        playerItem.innerHTML = '';
+                        playerNameSpan.addEventListener('click', () => fetchPlayerStats(player.id));
                         playerItem.appendChild(playerNameSpan);
 
-                        // Create and append the "Edit Stats" button next to the player's name
                         const editStatsBtn = document.createElement('button');
                         editStatsBtn.textContent = 'Edit Stats';
-                        editStatsBtn.className = 'editStatsBtn'; // Ensure this class exists and styles the button appropriately
-                        editStatsBtn.onclick = () => showEditStatsForm(player.id);
+                        editStatsBtn.className = 'editStatsBtn';
+                        editStatsBtn.addEventListener('click', () => showEditStatsForm(player.id));
+                        playerItem.appendChild(editStatsBtn);
 
-                        // Create and append the "Delete" button
                         const deleteBtn = document.createElement('button');
                         deleteBtn.textContent = 'Delete';
                         deleteBtn.className = 'deleteBtn';
-                        deleteBtn.onclick = () => deletePlayer(player.id);
-
-                        playerItem.appendChild(editStatsBtn);
+                        deleteBtn.addEventListener('click', () => deletePlayer(player.id));
                         playerItem.appendChild(deleteBtn);
+
                         playerList.appendChild(playerItem);
                     });
                 })
                 .catch(error => console.error('Error:', error));
         }
 
-
         function fetchPlayerStats(playerId) {
-            fetch(`http://127.0.0.1:8086/api/ballers/${playerId}/stats`)
-                .then(response => response.json())
-                .then(stats => {
-                    const statsContainer = document.getElementById('playerStats');
-                    statsContainer.innerHTML = ''; // Clear existing stats
-                    if (stats && stats.length > 0) {
-                        stats.forEach(stat => {
-                            const statDetail = document.createElement('p');
-                            statDetail.textContent = `Points Per Game: ${stat.points_per_game}, Assists Per Game: ${stat.assists_per_game}, Rebounds Per Game: ${stat.rebounds_per_game}`;
-                            statsContainer.appendChild(statDetail);
-                        });
-                    } else {
-                        statsContainer.textContent = 'No stats available for this player.';
-                    }
-                })
-                .catch(error => console.error('Error fetching player stats:', error));
+            // Fetch player stats logic
         }
-
 
         function deletePlayer(playerId) {
-            fetch(`http://127.0.0.1:8086/api/ballers/${playerId}`, { method: 'DELETE' })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Error deleting player');
-                }
-                return response.json();
-            })
-            .then(data => console.log(data))
-            .catch(error => console.error('Error:', error));
+            // Delete player logic
         }
 
-
-
+        function showEditStatsForm(playerId) {
+            // Show edit stats form logic
+        }
     </script>
 </body>
 </html>
