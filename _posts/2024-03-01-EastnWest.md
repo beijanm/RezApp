@@ -1,6 +1,3 @@
-Sure! I've modified the code to showcase three teams from each conference, and when you click the "Favorite" button, it toggles between "Favorite" and "Unfavorite" for each team individually. Here's the updated code:
-
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
