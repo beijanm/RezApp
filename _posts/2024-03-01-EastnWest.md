@@ -1,18 +1,52 @@
----
-toc: false
-comments: false 
-layout: base
-title: EastnWest
-type: hacks
-courses: { compsci: {week: 5} }
----
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NBA Teams and Starting Lineups</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        h1, h2, h3 {
+            color: #333;
+        }
+
+        #western-conference, #eastern-conference {
+            margin-bottom: 20px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+
+        .team {
+            font-weight: bold;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .favorite-button {
+            position: absolute;
+            right: 0;
+            top: 0;
+            background-color: #f8f8f8;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .favorite-button:hover {
+            background-color: #e0e0e0;
+        }
+    </style>
 </head>
 <body>
     <h1>NBA Teams and Starting Lineups</h1>
@@ -74,6 +108,7 @@ courses: { compsci: {week: 5} }
         // Function to display starting lineup for a team
         function displayStartingLineup(team, conference) {
             const teamElement = document.createElement("li");
+            teamElement.classList.add("team");
             teamElement.textContent = `${team.name} (${conference}) - Starting Lineup: `;
             const lineupElement = document.createElement("ul");
             team.players.forEach(player => {
@@ -82,6 +117,13 @@ courses: { compsci: {week: 5} }
                 lineupElement.appendChild(playerElement);
             });
             teamElement.appendChild(lineupElement);
+
+            // Add favorite button
+            const favoriteButton = document.createElement("button");
+            favoriteButton.textContent = "Favorite";
+            favoriteButton.classList.add("favorite-button");
+            teamElement.appendChild(favoriteButton);
+
             return teamElement;
         }
 
