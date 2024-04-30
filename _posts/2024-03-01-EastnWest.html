@@ -145,3 +145,14 @@
         westernConferenceTeams.slice(0, 3).forEach(team => {
             const teamElement = displayStartingLineup(team, team.conference);
             westernTeamsList.appendChild(teamElement);
+        });
+
+        // Display starting lineup for each team in the Eastern Conference
+        const easternTeamsList = document.getElementById("eastern-teams");
+        easternConferenceTeams.slice(0, 3).forEach(team => {
+            const teamElement = displayStartingLineup(team, team.conference);
+            easternTeamsList.appendChild(teamElement);
+        });
+    </script>
+</body>
+</html>
